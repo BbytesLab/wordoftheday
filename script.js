@@ -407,6 +407,7 @@ function ensureTodayState(){
 
 /* ---------- перемикання мови ---------- */
 function applyLang(lang){
+  lang = 'en';
   I18N.setLang(lang); 
   state = makeState(lang); 
   ensureTodayState(); 
