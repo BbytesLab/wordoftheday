@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Статистика — Слово дня</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <main class="screen" style="max-width:760px;width:100%;">
+    <section class="card about-card" id="statsCard">
+      <h1 id="stTitle">Статистика</h1>
+
+      <div id="stGrid" class="stats-grid"
+           style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:center;">
+      
+      </div>
+
+      <p style="text-align:center;margin-top:10px;">
+        <a href="index.html" class="tb-btn" id="stBack">← Назад до гри</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+  
+    function getLangSafe(){
+      try { return (window.I18N && I18N.getLang()) || localStorage.getItem('lang') || 'uk'; }
+      catch(e){ return 'uk'; }
+    }
+
+  
+    const L = {
+      uk: {
+        stats_title:'Статистика',
+        stats_games:'Всього ігор',
+        stats_wins:'% перемог',
+        stats_streak:'Поточна серія',
+        stats_best:'Найкраща серія',
+        stats_best_score:'Найбільше балів',
+        stats_back:'← Назад до гри',
+      },
+      en: {
+        stats_title:'Stats',
+        stats_games:'Games played',
+        stats_wins:'Win %',
+        stats_streak:'Current streak',
+        stats_best:'Best streak',
+        stats_best_score:'Best score',
+        stats_back:'← Back to game',
+      }
+    };
+
+    function t(key){
+      const lang = getLangSafe();
+      if (window.I18N && I18N.t) return I18N.t(key);
+      return (L[lang] && L[lang][key]) || key;
+    }
+
+    function loadStats(lang){
+      try{
+        return JSON.parse(localStorage.getItem(`stats_${lang}`)) || {
+          games:0, wins:0, streak:0, bestStreak:0, bestScore:0,
+          lastWinEpoch:null, lastSeenEpoch:null
+        };
+      }catch(_){
+        return {games:0, wins:0, streak:0, bestStreak:0, bestScore:0,
+                lastWinEpoch:null, lastSeenEpoch:null};
+      }
+    }
+
+    function renderStatsPage(){
+      const lang = getLangSafe();
+      const st = loadStats(lang);
+      const winPct = st.games ? Math.round((st.wins / st.games) * 100) : 0;
+
+      document.getElementById('stTitle').textContent = t('stats_title');
+      document.getElementById('stBack').textContent = t('stats_back');
+
+      document.getElementById('stGrid').innerHTML =
+        `<div><strong>${st.games}</strong><br>${t('stats_games')}</div>
+         <div><strong>${winPct}%</strong><br>${t('stats_wins')}</div>
+         <div><strong>${st.streak}</strong><br>${t('stats_streak')}</div>
+         <div><strong>${st.bestStreak}</strong><br>${t('stats_best')}</div>
+         <div style="grid-column:1/-1;"><strong>${st.bestScore}</strong><br>${t('stats_best_score')}</div>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', renderStatsPage);
+  </script>
+</body>
+</html>

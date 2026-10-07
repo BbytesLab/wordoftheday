@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Слово дня</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="tb-left">
+    <a class="tb-btn" href="about.html" target="_blank" rel="noopener" aria-label="Правила">?</a>
+  </div>
+
+  <div class="tb-title" id="appTitle">Слово дня</div>
+
+  <div class="tb-right">
+
+    <a class="tb-btn" id="btnStats" href="stats.html" aria-label="Статистика">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 3h2v18H5V3zm6 6h2v12h-2V9zm6-4h2v16h-2V5z"/>
+      </svg>
+    </a>
+  
+  
+  </div>
+</header>
+  <main class="screen">
+  
+    <div id="pattern" class="pattern"></div>
+
+
+<form id="word-form" class="card input-card" autocomplete="off" novalidate>
+  <input
+    id="word-input"
+    type="text"            
+    inputmode="text"   
+    enterkeyhint="done"    
+    placeholder="Напишіть своє слово"
+    autocomplete="off"
+    autocapitalize="off"
+    autocorrect="off"
+    spellcheck="false"
+  />
+  <button type="submit" hidden></button>
+</form>
+
+   
+    <section id="words-list" class="card list-card" aria-live="polite"></section>
+
+  
+    <div class="bottom">
+      <div class="card score-card"><div class="score" id="score">БАЛИ = 0</div></div>
+      <div class="card hint-card"><button type="button" id="hintBtn">ВІДКРИТИ ЛІТЕРУ</button></div>
+    </div>
+  </main>
+
+<script src="words-uk.js"></script>
+<script src="words-en.js"></script>
+<script src="i18n.js"></script>
+<script defer src="script.js"></script>
+
+<!-- Win Modal -->
+<div id="winModal" class="modal" hidden aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__card" role="document">
+
+    <h2 class="modal__title" id="winTitle" data-i18n="win_title">Вітаю!</h2>
+    <p class="modal__subtitle" id="winSub" data-i18n="win_sub">Ви вгадали слово дня</p>
+
+  
+    <div class="modal__word" id="winWord">[С Л О В О]</div>
+
+    <div class="modal__score">
+      <div class="modal__score-label" id="winScoreLabel" data-i18n="win_score_label">Бали сьогодні</div>
+      <div class="modal__score-value" id="winScore">0</div>
+    </div>
+
+    <div class="modal__actions">
+      <button id="winShareBtn" class="tb-btn modal__btn" type="button" aria-label="Share" data-i18n="win_share">
+        Поділитися
+      </button>
+      <button id="winCloseBtn" class="tb-btn modal__btn" type="button" data-close data-i18n="win_close">
+        Закрити
+      </button>
+    </div>
+  </div>
+</div>
+  
+</body>
+</html>
